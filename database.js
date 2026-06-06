@@ -6,6 +6,8 @@ const pool = mysql.createPool({
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'github_profiles',
+  port: process.env.DB_PORT || 3306,
+  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: true } : null,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -17,7 +19,9 @@ const initializeDatabase = async () => {
     const connection = await mysql.createConnection({
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'root',
-      password: process.env.DB_PASSWORD || ''
+      password: process.env.DB_PASSWORD || '',
+      port: process.env.DB_PORT || 3306,
+      ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: true } : null
     });
 
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME || 'github_profiles'}\`;`);
