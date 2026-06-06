@@ -7,7 +7,8 @@ const analyzeProfile = async (req, res) => {
 
   try {
     // Fetch data from GitHub API
-    const response = await axios.get(`https://api.github.com/users/${username}`);
+    const config = process.env.GITHUB_TOKEN ? { headers: { Authorization: `token ${process.env.GITHUB_TOKEN}` } } : {};
+    const response = await axios.get(`https://api.github.com/users/${username}`, config);
     const data = response.data;
 
     // Extract useful insights
